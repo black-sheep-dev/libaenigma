@@ -4,7 +4,6 @@
 #include <QObject>
 
 #include <QDateTime>
-#include <QDe
 #include <QList>
 #include <QTimer>
 #include <QVariant>

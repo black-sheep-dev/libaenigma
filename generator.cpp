@@ -8,7 +8,7 @@
 
 using namespace Aenigma;
 
-Generator::Generator(Difficulty::Level difficulty, QObject *parent) :
+Generator::Generator(quint8 difficulty, QObject *parent) :
     QObject(parent),
     m_difficulty(difficulty)
 {
