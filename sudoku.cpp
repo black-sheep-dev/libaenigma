@@ -247,12 +247,12 @@ void Sudoku::setCurrentUndoId(quint16 id)
 }
 
 
-Difficulty::Level Sudoku::difficulty() const
+quint8 Sudoku::difficulty() const
 {
     return m_difficulty;
 }
 
-void Sudoku::setDifficulty(Difficulty::Level difficulty)
+void Sudoku::setDifficulty(quint8 difficulty)
 {
     if (m_difficulty == difficulty)
         return;
@@ -273,7 +273,7 @@ void Sudoku::setElapsedTime(qint64 msec)
     emit elapsedTimeChanged();
 }
 
-GameState::State Sudoku::gameState() const
+quint8 Sudoku::gameState() const
 {
     return m_gameState;
 }

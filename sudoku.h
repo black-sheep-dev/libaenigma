@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <QDateTime>
+#include <QDe
 #include <QList>
 #include <QTimer>
 #include <QVariant>
@@ -28,11 +29,11 @@ class LIBAENIGMA_EXPORT Sudoku : public QObject
     Q_PROPERTY(bool autoCleanupNotes READ autoCleanupNotes WRITE setAutoCleanupNotes NOTIFY autoCleanupNotesChanged)
     Q_PROPERTY(bool autoNotes READ autoNotes WRITE setAutoNotes NOTIFY autoNotesChanged)
     Q_PROPERTY(quint16 currentUndoId READ currentUndoId WRITE setCurrentUndoId NOTIFY currentUndoIdChanged)
-    Q_PROPERTY(Difficulty::Level difficulty READ difficulty WRITE setDifficulty NOTIFY difficultyChanged)
+    Q_PROPERTY(quint8 difficulty READ difficulty WRITE setDifficulty NOTIFY difficultyChanged)
     Q_PROPERTY(qint64 elapsedTime READ elapsedTime WRITE setElapsedTime NOTIFY elapsedTimeChanged)
     Q_PROPERTY(quint16 hintsCount READ hintsCount WRITE setHintsCount NOTIFY hintsCountChanged)
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
-    Q_PROPERTY(GameState::State gameState READ gameState NOTIFY gameStateChanged)
+    Q_PROPERTY(quint8 gameState READ gameState NOTIFY gameStateChanged)
     Q_PROPERTY(quint16 stepsCount READ stepsCount WRITE setStepsCount NOTIFY stepsCountChanged)
     Q_PROPERTY(quint16 undoStepCount READ undoStepCount NOTIFY undoStepCountChanged)
     Q_PROPERTY(quint8 unsolvedCellCount READ unsolvedCellCount NOTIFY unsolvedCellCountChanged)
@@ -62,13 +63,13 @@ public:
     quint16 currentUndoId() const;
     void setCurrentUndoId(quint16 id);
 
-    Difficulty::Level difficulty() const;
-    void setDifficulty(Difficulty::Level difficulty);
+    quint8 difficulty() const;
+    void setDifficulty(quint8 difficulty);
 
     qint64 elapsedTime() const;
     void setElapsedTime(qint64 msec);
 
-    GameState::State gameState() const;
+    quint8 gameState() const;
 
     quint16 hintsCount() const;
     void setHintsCount(quint16 count);
@@ -132,9 +133,9 @@ private:
     bool m_autoCleanupNotes{false};
     bool m_autoNotes{false};
     quint16 m_currentUndoId{0};
-    Difficulty::Level m_difficulty{Difficulty::Easy};
+    quint8 m_difficulty{Difficulty::Easy};
     qint64 m_elapsedTime{0};
-    GameState::State m_gameState{GameState::Empty};
+    quint8 m_gameState{GameState::Empty};
     quint16 m_hintsCount{0};
     QDateTime m_startTime;
     quint16 m_stepsCount{0};  
