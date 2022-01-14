@@ -1,11 +1,25 @@
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef AENIGMA_H
+#define AENIGMA_H
 
 #include <QObject>
 
 #include "libaenigma_global.h"
 
 namespace Aenigma {
+
+class CellData
+{
+    Q_GADGET
+public:
+    enum Role {
+        HasError,
+        IsEditable,
+        Notes,
+        Solution,
+        Value
+    };
+    Q_ENUM(Role)
+};
 
 class LIBAENIGMA_EXPORT Difficulty {
 
@@ -18,6 +32,22 @@ public:
         Insane
     };
     Q_ENUM(Level)
+};
+
+class GameState
+{
+    Q_GADGET
+public:
+    enum State {
+        Empty,
+        Generating,
+        Ready,
+        Playing,
+        Pause,
+        Solved,
+        NotCorrect
+    };
+    Q_ENUM(State)
 };
 
 class LIBAENIGMA_EXPORT Note
@@ -43,4 +73,4 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(Note::Numbers)
 
 }
 
-#endif // ENUMS_H
+#endif // AENIGMA_H

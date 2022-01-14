@@ -2,11 +2,20 @@
 
 #include <QtMath>
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#include <QRandomGenerator>
+#endif
+
 using namespace Aenigma;
 
 quint8 Tools::dice()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    QRandomGenerator::global()->bounded(1, boxSize + 1);
+#else
     return qrand() % boxSize + 1;
+#endif
+
 }
 
 void Tools::fillBox(quint8 row, quint8 col, QVector<quint8> &board, quint8 (*dice)())

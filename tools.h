@@ -3,7 +3,7 @@
 
 #include <QVector>
 
-#include "enums.h"
+#include "aenigma.h"
 
 constexpr quint32 MAX_SOLUTION_TRIES{5000000};
 

@@ -14,14 +14,17 @@ TARGET = aenigma
 SOURCES += \
     generator.cpp \
     libaenigma.cpp \
+    sudoku.cpp \
     tools.cpp
 
 HEADERS += \
-    enums.h \
+    aenigma.h \
     generator.h \
     libaenigma_global.h \
     libaenigma.h \
-    tools.h
+    sudoku.h \
+    tools.h \
+    undostep.h
 
 # Default rules for deployment.
 unix {

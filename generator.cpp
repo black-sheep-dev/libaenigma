@@ -2,6 +2,10 @@
 
 #include <QDateTime>
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#include <QRandomGenerator>
+#endif
+
 using namespace Aenigma;
 
 Generator::Generator(Difficulty::Level difficulty, QObject *parent) :
@@ -14,7 +18,11 @@ Generator::Generator(Difficulty::Level difficulty, QObject *parent) :
 void Generator::run()
 {
     // seeding random number generator
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    QRandomGenerator::global()->seed(QDateTime::currentMSecsSinceEpoch());
+#else
     qsrand(QDateTime::currentMSecsSinceEpoch());
+#endif
 
     // generate board
     QVector<quint8> solution(gridSize, 0);

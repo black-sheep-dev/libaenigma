@@ -4,7 +4,7 @@
 #include <QRunnable>
 #include <QObject>
 
-#include "enums.h"
+#include "aenigma.h"
 #include "tools.h"
 
 #include "libaenigma_global.h"
