@@ -15,14 +15,14 @@ class LIBAENIGMA_EXPORT Generator : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    explicit Generator(Difficulty::Level difficulty = Difficulty::Medium, QObject *parent = nullptr);
+    explicit Generator(quint8 difficulty = Difficulty::Medium, QObject *parent = nullptr);
 
 signals:
     void failed();
     void finished(QVector<quint8> puzzle, QVector<quint8> solution, QVector<quint16> notes);
 
 private:
-    Difficulty::Level m_difficulty{Difficulty::Medium};
+    quint8 m_difficulty{Difficulty::Medium};
     QVector<quint8> m_difficulties{25,35,45,55};
 
     // QRunnable interface
