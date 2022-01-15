@@ -176,6 +176,8 @@ bool Sudoku::fromBase64(const QString &data)
 
     emit gameStateChanged();
 
+    checkIfFinished();
+
     return true;
 }
 
