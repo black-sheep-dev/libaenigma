@@ -155,6 +155,10 @@ bool Sudoku::fromBase64(const QString &data)
     quint16 version{0};
     stream >> version;
 
+    if (version > 1) {
+        stream >> m_difficulty;
+    }
+
     stream >> m_elapsedTime;
     emit elapsedTimeChanged();
 
@@ -191,6 +195,7 @@ QString Sudoku::toBase64() const
     stream << AENIGMA_GAME_DATA_MAGIC;
     stream << AENIGMA_GAME_DATA_VERSION;
 
+    stream << m_difficulty;
     stream << m_elapsedTime;
     stream << quint8(m_gameState);
     stream << m_hintsCount;

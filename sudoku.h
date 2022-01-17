@@ -17,7 +17,7 @@
 #include "libaenigma_global.h"
 
 constexpr quint64 AENIGMA_GAME_DATA_MAGIC = 0x41454e49474d41;
-constexpr quint16 AENIGMA_GAME_DATA_VERSION = 1;
+constexpr quint16 AENIGMA_GAME_DATA_VERSION = 2;
 
 namespace Aenigma {
 
