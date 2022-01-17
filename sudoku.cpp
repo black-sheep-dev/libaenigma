@@ -157,6 +157,7 @@ bool Sudoku::fromBase64(const QString &data)
 
     if (version > 1) {
         stream >> m_difficulty;
+        emit difficultyChanged();
     }
 
     stream >> m_elapsedTime;
