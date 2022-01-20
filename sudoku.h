@@ -17,7 +17,7 @@
 #include "libaenigma_global.h"
 
 constexpr quint64 AENIGMA_GAME_DATA_MAGIC = 0x41454e49474d41;
-constexpr quint16 AENIGMA_GAME_DATA_VERSION = 2;
+constexpr quint16 AENIGMA_GAME_DATA_VERSION = 3;
 
 namespace Aenigma {
 
@@ -36,6 +36,7 @@ class LIBAENIGMA_EXPORT Sudoku : public QObject
     Q_PROPERTY(quint16 stepsCount READ stepsCount WRITE setStepsCount NOTIFY stepsCountChanged)
     Q_PROPERTY(quint16 undoStepCount READ undoStepCount NOTIFY undoStepCountChanged)
     Q_PROPERTY(quint8 unsolvedCellCount READ unsolvedCellCount NOTIFY unsolvedCellCountChanged)
+    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
 
 public:    
     explicit Sudoku(QObject *parent = nullptr);
@@ -83,6 +84,9 @@ public:
 
     quint8 unsolvedCellCount() const;   
 
+    const QString &uuid() const;
+    void setUuid(const QString &uuid);
+
 signals:
     void dataChanged(quint8 row, quint8 column, quint8 role, const QVariant &data);
     void generatorFailed();
@@ -100,6 +104,7 @@ signals:
     void stepsCountChanged();
     void undoStepCountChanged();
     void unsolvedCellCountChanged(); 
+    void uuidChanged();
 
 public slots:
     void incrementHintsCount();
@@ -139,6 +144,7 @@ private:
     QDateTime m_startTime;
     quint16 m_stepsCount{0};  
     quint8 m_unsolvedCellCount{0};
+    QString m_uuid;
 };
 
 }

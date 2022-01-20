@@ -1,5 +1,13 @@
 #include "sudoku.h"
 
+#include <QUuid>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+    #define CREATE_UUID   QUuid::createUuid().toString(QUuid::WithoutBraces)
+#else
+    #define CREATE_UUID   QUuid::createUuid().toString().mid(1, 36)
+#endif
+
 #include <QDebug>
 #include <QtMath>
 #include <QThreadPool>
@@ -13,6 +21,8 @@ Sudoku::Sudoku(QObject *parent) : QObject(parent)
         this->m_elapsedTime++;
         emit elapsedTimeChanged();
     });
+
+
 }
 
 QVariant Sudoku::data(quint8 row, quint8 column, quint8 role) const
@@ -155,6 +165,13 @@ bool Sudoku::fromBase64(const QString &data)
     quint16 version{0};
     stream >> version;
 
+    if (version > 2) {
+        stream >> m_uuid;
+        emit uuidChanged();
+    } else {
+        setUuid(CREATE_UUID);
+    }
+
     if (version > 1) {
         stream >> m_difficulty;
         emit difficultyChanged();
@@ -196,6 +213,7 @@ QString Sudoku::toBase64() const
     stream << AENIGMA_GAME_DATA_MAGIC;
     stream << AENIGMA_GAME_DATA_VERSION;
 
+    stream << m_uuid;
     stream << m_difficulty;
     stream << m_elapsedTime;
     stream << quint8(m_gameState);
@@ -335,6 +353,20 @@ quint8 Sudoku::unsolvedCellCount() const
     return m_unsolvedCellCount;
 }
 
+const QString &Sudoku::uuid() const
+{
+    return m_uuid;
+}
+
+void Sudoku::setUuid(const QString &uuid)
+{
+    if (m_uuid == uuid)
+        return;
+    m_uuid = uuid;
+    emit uuidChanged();
+}
+
+
 void Sudoku::incrementHintsCount()
 {
     setHintsCount(m_hintsCount + 1);
@@ -453,6 +485,7 @@ void Sudoku::onGeneratorFailed()
 
 void Sudoku::onGeneratorFinished(const QVector<quint8>& puzzle, const QVector<quint8> &solution, const QVector<quint16> &notes)
 {
+    setUuid(CREATE_UUID);
     m_puzzle = puzzle;
     m_game = puzzle;
     m_solution = solution;
