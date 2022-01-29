@@ -487,6 +487,7 @@ void Sudoku::undo()
 
     } while (current.id == m_undoQueue.last().id);
 
+    m_currentUndoId--;
     emit undoStepCountChanged();
 }
 
