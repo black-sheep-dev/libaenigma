@@ -180,7 +180,7 @@ bool Sudoku::fromBase64(const QString &data)
     stream >> m_elapsedTime;
     emit elapsedTimeChanged();
 
-    quint8 state;
+    quint8 state{0};
     stream >> state;
     m_gameState = GameState::State(state);
 
@@ -195,6 +195,10 @@ bool Sudoku::fromBase64(const QString &data)
 
     stream >> m_currentUndoId;
     stream >> m_undoQueue;
+
+    if (version >= 4) {
+        stream >> m_lastCorrectUndoId;
+    }
 
     emit gameStateChanged();
 
@@ -228,6 +232,8 @@ QString Sudoku::toBase64() const
 
     stream << m_currentUndoId;
     stream << m_undoQueue;
+
+    stream << m_lastCorrectUndoId;
 
     return out.toBase64();
 }
@@ -394,6 +400,7 @@ void Sudoku::reset()
 {
     m_undoQueue.clear();
     m_currentUndoId = 0; 
+    m_lastCorrectUndoId = 0;
 
     m_notes.fill(0);
     m_game = m_puzzle;
@@ -413,6 +420,13 @@ void Sudoku::reset()
     checkIfFinished();
 
     start();
+}
+
+void Sudoku::revertToLastCorrectState()
+{
+    while (m_currentUndoId != m_lastCorrectUndoId) {
+        undo();
+    }
 }
 
 void Sudoku::start()
@@ -512,7 +526,7 @@ void Sudoku::checkIfFinished()
     // check if finished / no 0 left
     QVector<quint8> numbers(boxSize, 0);
     m_unsolvedCellCount = 0;
-    for (const auto &number : m_game) {
+    for (const auto &number : qAsConst(m_game)) {
         if (number == 0) {
             m_unsolvedCellCount++;
             continue;
@@ -527,12 +541,27 @@ void Sudoku::checkIfFinished()
         emit numberFinished(i + 1, numbers[i] == boxSize);
     }
 
+    // check for errors to mark last correct state
+    bool error{false};
+    for (quint8 i = 0; i < gridSize; ++i) {
+        if (m_game[i] == m_solution[i] || m_game[i] == 0) {
+            continue;
+        }
+
+        error = true;
+        break;
+    }
+
+    if (!error) {
+        m_lastCorrectUndoId = m_currentUndoId;
+    }
+
     // return if not solved
     if (m_unsolvedCellCount > 0) {
         return;
     }
 
-    // check for errors
+    // check for errors at game end
     for (quint8 i = 0; i < gridSize; ++i) {
         if (m_game[i] != m_solution[i]) {
             m_gameState = GameState::NotCorrect;

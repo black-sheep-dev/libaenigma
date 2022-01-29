@@ -17,7 +17,7 @@
 #include "libaenigma_global.h"
 
 constexpr quint64 AENIGMA_GAME_DATA_MAGIC = 0x41454e49474d41;
-constexpr quint16 AENIGMA_GAME_DATA_VERSION = 3;
+constexpr quint16 AENIGMA_GAME_DATA_VERSION = 4;
 
 namespace Aenigma {
 
@@ -111,6 +111,7 @@ public slots:
     void incrementStepsCount();
     void generate();
     void reset();
+    void revertToLastCorrectState();
     void start();
     void stop();
     void toogleNote(quint8 row, quint8 column, quint16 note);
@@ -126,6 +127,7 @@ private:
     void incrementUndoId();
 
     QVector<quint8> m_game{QVector<quint8>(gridSize, 0)};
+    quint16 m_lastCorrectUndoId{0};
     QVector<quint16> m_notes{QVector<quint16>(gridSize, 0)};
     QVector<quint16> m_notesGenerated{QVector<quint16>(gridSize, 0)};
     QVector<quint8> m_puzzle{QVector<quint8>(gridSize, 0)};
