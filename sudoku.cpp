@@ -526,7 +526,7 @@ void Sudoku::checkIfFinished()
     // check if finished / no 0 left
     QVector<quint8> numbers(boxSize, 0);
     m_unsolvedCellCount = 0;
-    for (const auto &number : qAsConst(m_game)) {
+    for (const auto &number : m_game) {
         if (number == 0) {
             m_unsolvedCellCount++;
             continue;
